@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | DiagnoseAi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f9fafe;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .login-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    .login-container img {
+      height: 50px;
+      margin-bottom: 20px;
+    }
+
+    .login-container h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .login-container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      background-color: #0074f0;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .login-container button:hover {
+      background-color: #005ed1;
+    }
+
+    .login-container a {
+      color: #0074f0;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .login-container a:hover {
+      text-decoration: underline;
+    }
+
+    .forgot-password {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="assets/diagnoaiblack.png" alt="DiagnoseAi Logo">
+    <h1>Welcome Back</h1>
+    <form id="login-form">
+      <input type="email" id="email" placeholder="Enter your email" required>
+      <input type="password" id="password" placeholder="Enter your password" required>
+      <button type="submit">Log In</button>
+    </form>
+    <p class="error-message" id="error-message"></p>
+    <a href="/signup">New user? Sign up</a>
+    <p class="forgot-password"><a href="#">Forgot your password?</a></p>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const errorMessage = document.getElementById('error-message');
+
+    loginForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/login", {
+          method: "POST",
+          credentials: "include", // Include cookies for session management
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: email,
+            password: password
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // If login is successful, redirect to the prediction page
+          alert("Login successful!");
+          window.location.href = "prediction.html";
+        } else {
+          // If login fails, display error message
+          errorMessage.textContent = result.error || "Invalid login credentials.";
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        errorMessage.textContent = "An error occurred while logging in. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>

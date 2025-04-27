@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnosis | Predict</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #e6f0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-indicator {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      position: relative;
+      height: 4px;
+      background: linear-gradient(90deg, #ccc, #ccc);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-indicator span {
+      position: absolute;
+      height: 100%;
+      background: linear-gradient(90deg, #0074f0, #00c6ff);
+      transition: width 0.5s ease;
+    }
+
+    .progress-indicator div {
+      flex: 1;
+      height: 4px;
+      background: transparent;
+    }
+
+    .progress-indicator div:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    .step {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.5s ease;
+    }
+
+    .step.active {
+      position: relative;
+      opacity: 1;
+      transform: translateX(0%);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #1a1a1a;
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #0074f0;
+      box-shadow: 0 0 5px rgba(0, 116, 240, 0.4);
+    }
+
+    select {
+      appearance: none;
+      background: #f9f9f9 url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10"><polygon points="0,0 10,0 5,5" style="fill:gray;" /></svg>') no-repeat right 10px center;
+      background-size: 10px;
+    }
+
+    button {
+      background-color: #0074f0;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: auto;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005ed1;
+      transform: translateX(-5px);
+    }
+
+    #result {
+      margin-top: 20px;
+      color: #0074f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="progress-indicator" id="progressIndicator">
+      <span style="width: 20%;"></span>
+    </div>
+
+    <!-- Step 1: Age -->
+    <div class="step active" id="step1">
+      <h2>Age</h2>
+      <p>Enter your age:</p>
+      <input type="number" id="age" placeholder="e.g. 30" min="1" max="120" />
+      <button onclick="nextStep(1)">Next</button>
+    </div>
+
+    <!-- Step 2: Gender -->
+    <div class="step" id="step2">
+      <h2>Gender</h2>
+      <p>Select your gender:</p>
+      <select id="gender">
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <button onclick="nextStep(2)">Next</button>
+    </div>
+
+    <!-- Step 3: Symptoms -->
+    <div class="step" id="step3">
+      <h2>Symptoms</h2>
+      <p>Answer "Yes" or "No" for the following symptoms:</p>
+      <label>Fever:</label>
+      <select id="fever">
+        <option value="">Select</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <label>Cough:</label>
+      <select id="cough">
+        <option value="">Select</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <label>Fatigue:</label>
+      <select id="fatigue">
+        <option value="">Select</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <label>Difficulty Breathing:</label>
+      <select id="difficulty_breathing">
+        <option value="">Select</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+      <button onclick="nextStep(3)">Next</button>
+    </div>
+
+    <!-- Step 4: Blood Pressure -->
+    <div class="step" id="step4">
+      <h2>Blood Pressure</h2>
+      <p>Select your blood pressure level:</p>
+      <select id="blood_pressure">
+        <option value="">Select</option>
+        <option value="low">Low</option>
+        <option value="normal">Normal</option>
+        <option value="high">High</option>
+      </select>
+      <button onclick="nextStep(4)">Next</button>
+    </div>
+
+    <!-- Step 5: Cholesterol Level -->
+    <div class="step" id="step5">
+      <h2>Cholesterol Level</h2>
+      <p>Select your cholesterol level:</p>
+      <select id="cholesterol_level">
+        <option value="">Select</option>
+        <option value="low">Low</option>
+        <option value="normal">Normal</option>
+        <option value="high">High</option>
+      </select>
+      <button onclick="getPrediction()">Get Prediction</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function nextStep(current) {
+      const currentStep = document.getElementById('step' + current);
+      const nextStep = document.getElementById('step' + (current + 1));
+      const progressIndicator = document.getElementById('progressIndicator').querySelector('span');
+
+      if (validateStep(current)) {
+        currentStep.classList.remove('active');
+        nextStep.classList.add('active');
+        progressIndicator.style.width = ((current + 1) / 5) * 100 + '%';
+      }
+    }
+
+    function validateStep(step) {
+      if (step === 1) {
+        const age = document.getElementById('age').value;
+        return age && age > 0;
+      }
+      if (step === 2) {
+        const gender = document.getElementById('gender').value;
+        return gender !== '';
+      }
+      if (step === 3) {
+        const fever = document.getElementById('fever').value;
+        const cough = document.getElementById('cough').value;
+        const fatigue = document.getElementById('fatigue').value;
+        const breathing = document.getElementById('difficulty_breathing').value;
+        return fever && cough && fatigue && breathing;
+      }
+      if (step === 4) {
+        const bloodPressure = document.getElementById('blood_pressure').value;
+        return bloodPressure !== '';
+      }
+      if (step === 5) {
+        const cholesterolLevel = document.getElementById('cholesterol_level').value;
+        return cholesterolLevel !== '';
+      }
+      return true;
+    }
+
+    async function getPrediction() {
+      const age = document.getElementById('age').value;
+      const gender = document.getElementById('gender').value;
+      const fever = document.getElementById('fever').value;
+      const cough = document.getElementById('cough').value;
+      const fatigue = document.getElementById('fatigue').value;
+      const breathing = document.getElementById('difficulty_breathing').value;
+      const bloodPressure = document.getElementById('blood_pressure').value;
+      const cholesterolLevel = document.getElementById('cholesterol_level').value;
+
+      const payload = {
+        symptoms: {
+          age: parseInt(age),
+          gender,
+          fever,
+          cough,
+          fatigue,
+          "difficulty breathing": breathing,
+          "blood pressure": bloodPressure,
+          "cholesterol level": cholesterolLevel,
+        }
+      };
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.redirect) {
+          window.location.href = data.redirect;
+        } else if (data.error) {
+          alert("Prediction failed: " + data.error);
+        } else {
+          alert("Prediction failed. Unexpected response from server.");
+        }
+      } catch (error) {
+        alert(`Error contacting server: ${error}`);
+      }
+    }
+  </script>
+</body>
+</html>

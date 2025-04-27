@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | DiagnoseAI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f9fafe;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #1e1e2f;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo img {
+      height: 3.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #00d4ff;
+    }
+
+    .login-btn {
+      padding: 8px 16px;
+      border: 2px solid #00d4ff;
+      border-radius: 6px;
+      background: transparent;
+      color: #00d4ff;
+      font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .login-btn:hover {
+      background-color: rgba(0, 212, 255, 0.15);
+      color: white;
+    }
+
+    main {
+      padding-top: 120px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .section {
+      margin-bottom: 60px;
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      color: #1e90ff;
+      margin-bottom: 15px;
+    }
+
+    .section p, .section ul {
+      font-size: 1.1rem;
+      color: #444;
+    }
+
+    .section ul li {
+      margin-bottom: 10px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .team-member {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .team-member img {
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 40px 20px;
+      background: #1e1e2f;
+      color: white;
+      border-radius: 10px;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #00d4ff;
+      color: #1e1e2f;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .cta a:hover {
+      background-color: #00b5e6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="assets/diagnoai.png" alt="Company Logo">
+    </div>
+    <div class="nav-links">
+      <ul>
+        <li><a href="/Home">Home</a></li>
+        <li><a href="/aboutus">About Us</a></li>
+        <li><a href="#">Features</a></li>
+      </ul>
+      <a href="/login" class="login-btn">Login / Signup</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2>Who We Are</h2>
+      <p>DiagnoseAI is a healthcare innovation company on a mission to leverage artificial intelligence for early and accurate disease detection. Our passion lies in transforming the diagnostic landscape with cutting-edge technology and a patient-first mindset.</p>
+    </section>
+
+    <section class="section">
+      <h2>Our Mission</h2>
+      <p>To bridge the gap between medical expertise and technology, making reliable healthcare diagnostics accessible to everyone, everywhere.</p>
+    </section>
+
+    <section class="section">
+      <h2>Our Vision</h2>
+      <p>We envision a future where AI seamlessly supports doctors and empowers patients with timely, personalized, and predictive diagnostics—changing how the world experiences healthcare.</p>
+    </section>
+
+    <section class="section">
+      <h2>Meet the Team</h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <h3>Aryan Saxena</h3>
+          <p>Backend Developer</p>
+        </div>
+        <div class="team-member">
+          <h3>Ansh Kapoor</h3>
+          <p>Frontend Developer</p>
+        </div>
+        <div class="team-member">
+          <h3>Ayush Pratap</h3>
+          <p>Collaborator</p>
+        </div>
+ 
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why Choose DiagnoseAI?</h2>
+      <ul>
+        <li>✅ AI-Powered Real-Time Diagnostics</li>
+        <li>✅ Backed by Certified Medical Experts</li>
+        <li>✅ HIPAA-Compliant Data Security</li>
+        <li>✅ User-Centric, Mobile-Friendly Design</li>
+      </ul>
+    </section>
+
+    <section class="cta">
+      <h2>Want to Learn More?</h2>
+      <p>Explore how DiagnoseAI is changing lives with smart, accessible diagnostics.</p>
+      <a href="contactus.html" class="btn">Contact Us</a>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | DiagnoseAi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f9fafe;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .signup-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      text-align: center;
+    }
+
+    .signup-container img.logo {
+      display: block;
+      margin: 0 auto;
+      height: 50px;
+    }
+
+    .signup-container h1 {
+      font-size: 1.4rem;
+      margin: 15px 0 20px;
+    }
+
+    .signup-container label {
+      display: block;
+      font-weight: 500;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .signup-container input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .code-section {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .code-section input[type="text"] {
+      flex: 3;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .code-section button {
+      flex: 1;
+      padding: 10px;
+      background-color: #0074f0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-left: 10px;
+    }
+
+    .code-section button:hover {
+      background-color: #005ed1;
+    }
+
+    .signup-container button.submit-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #0074f0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .signup-container button.submit-btn:hover {
+      background-color: #005ed1;
+    }
+
+    .signup-container p {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .signup-container p a {
+      color: #0074f0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .signup-container p a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <img src="assets/diagnoaiblack.png" alt="DiagnoseAi Logo" class="logo">
+    <h1>Create Your Account</h1>
+
+ <form id="signup-form">
+  <label for="email">Email</label>
+  <input type="email" name="username" id="email" placeholder="Enter your email" required>
+
+  <label for="code">Verification Code</label>
+  <div class="code-section">
+    <input type="text" id="code" placeholder="Enter verification code">
+    <button type="button" id="send-code-btn">Send Code</button>
+    <button type="button" id="confirm-code-btn" style="display: none;">Confirm</button>
+  </div>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" placeholder="Create password" disabled>
+
+  <label for="confirm-password">Confirm Password</label>
+  <input type="password" id="confirm-password" placeholder="Confirm password" disabled>
+
+  <p class="error" id="error-message"></p>
+  <button type="submit" class="submit-btn" disabled id="signup-btn">Sign Up</button>
+</form>
+
+    <p>Already have an account? <a href="login.html">Log in</a></p>
+  </div>
+
+  <script>
+    const codeInput = document.getElementById('code');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const sendCodeBtn = document.getElementById('send-code-btn');
+    const confirmCodeBtn = document.getElementById('confirm-code-btn');
+    const signupBtn = document.getElementById('signup-btn');
+    const errorMessage = document.getElementById('error-message');
+  
+    let verificationCode = "";
+  
+    // Generate and send the verification code
+    function sendVerificationCode(email) {
+      verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+      alert(`Verification Code Sent to ${email}: ${verificationCode}`);
+    }
+  
+    // Handle "Send Code" button click
+    sendCodeBtn.addEventListener('click', function () {
+      const email = emailInput.value;
+  
+      if (!email) {
+        errorMessage.textContent = "Please enter a valid email!";
+        return;
+      }
+  
+      sendVerificationCode(email); // Generate and send the code
+      sendCodeBtn.style.display = "none";
+      confirmCodeBtn.style.display = "inline-block";
+    });
+  
+    // Handle "Confirm Code" button click
+    confirmCodeBtn.addEventListener('click', function () {
+      const enteredCode = codeInput.value;
+  
+      if (enteredCode !== verificationCode) {
+        errorMessage.textContent = "Invalid verification code!";
+        return;
+      }
+  
+      errorMessage.textContent = "";
+      alert("Verification code confirmed!");
+  
+      // Enable password fields and Sign-Up button
+      passwordInput.disabled = false;
+      confirmPasswordInput.disabled = false;
+      signupBtn.disabled = false;
+    });
+  
+    // Handle form submission
+    const signupForm = document.getElementById('signup-form');
+    signupForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+  
+      const email = emailInput.value;
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+  
+      if (password !== confirmPassword) {
+        errorMessage.textContent = "Passwords do not match!";
+        return;
+      }
+  
+      errorMessage.textContent = "";
+  
+      try {
+        const response = await fetch("http://127.0.0.1:5000/signup", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: email,
+            password: password
+          })
+        });
+  
+        const result = await response.json();
+  
+        if (response.ok) {
+          alert("Account created successfully!");
+          window.location.href = "login.html"; // Redirect after successful signup
+        } else {
+          errorMessage.textContent = result.error || "Signup failed.";
+        }
+      } catch (error) {
+        console.error("Signup error:", error);
+        errorMessage.textContent = "An error occurred during signup.";
+      }
+    });
+  </script>
+  
+</body>
+</html>

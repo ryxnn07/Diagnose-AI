@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DiagnoseAi | Your AI Health Companion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f9fafe;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #1e1e2f;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    header img {
+      height: 3.2rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00d4ff;
+    }
+
+    nav a.active {
+      color: #00d4ff;
+      font-weight: 600;
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 140px 10% 60px;
+      background: linear-gradient(90deg, #f0f4ff 0%, #ffffff 100%);
+    }
+
+    .hero-text {
+      flex: 1 1 50%;
+      max-width: 600px;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .hero button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #0074f0;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .hero button:hover {
+      background-color: #005ed1;
+    }
+
+    .hero img {
+      flex: 1 1 40%;
+      max-width: 450px;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .info-banner {
+      padding: 80px 10%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #ffffff;
+    }
+
+    .info-banner img {
+      max-width: 600px;
+      border-radius: 12px;
+    }
+
+    .info-banner .text-content {
+      max-width: 600px;
+    }
+
+    .info-banner h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #1a1a1a;
+    }
+
+    .info-banner p {
+      font-size: 1.1rem;
+      color: #444;
+    }
+
+    .features {
+      padding: 60px 10%;
+      background-color: #f3f7fb;
+    }
+
+    .features h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2rem;
+      color: #1a1a1a;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      color: #0074f0;
+    }
+
+    .feature-card p {
+      color: #555;
+    }
+
+    .cta-banner {
+      padding: 100px 10%;
+      background-color: #23253a;
+      text-align: center;
+      color: #fff;
+    }
+
+    .cta-banner h2 {
+      font-size: 2rem;
+      margin-bottom: 50px;
+    }
+
+    .cta-banner button {
+      padding: 14px 28px;
+      background-color: #ff5c5c;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .cta-banner button:hover {
+      background-color: #e04545;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      background-color: #ffffff;
+      border-top: 1px solid #ddd;
+    }
+
+    /* Modal styles */
+    #signupModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #signupModal .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      animation: fadeInScale 0.4s ease-out;
+      transform-origin: center;
+    }
+
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    #signupModal .modal-content button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0074f0;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #signupModal .modal-content button:hover {
+      background: #005ed1;
+    }
+
+    #signupModal .modal-content .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        padding-top: 120px;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .hero-text, .hero img {
+        max-width: 100%;
+      }
+
+      .info-banner {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+
+      .info-banner img {
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="assets/diagnoai.png" alt="DiagnoseAi Logo">
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="/contactus">Contact</a>
+      <a href="/aboutus">About Us</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Your Health, Smarter</h1>
+      <p>DiagnoseAi uses artificial intelligence to help you identify potential health conditions from your symptoms — fast, simple, secure.</p>
+      <button onclick="handleDiagnosisClick()">Get Diagnosed</button>
+    </div>
+    <img src="https://www.shutterstock.com/image-vector/male-doctor-smiling-happy-face-600nw-2481032615.jpg" alt="Hero Doctor Image">
+  </section>
+
+  <section class="info-banner">
+    <img src="assets/diagnose.png" alt="Doctor Illustration">
+    <div class="text-content">
+      <h2>Start Your Diagnosis</h2>
+      <p>After signing in, you'll be guided to our interactive diagnostic tool. A virtual doctor will be displayed beside a clean interface where you can input your age, gender, and symptoms — and get quick insights powered by AI.</p>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>Why Choose DiagnoseAi?</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Instant Predictions</h3>
+        <p>Get real-time suggestions based on the latest medical datasets and AI-driven insights.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Data-Driven</h3>
+        <p>Our algorithms are trained on verified medical records to ensure high-quality recommendations.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Private & Secure</h3>
+        <p>We respect your privacy. Your data is never shared or stored unnecessarily.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <h2>You're only one click away from a life-changing journey</h2>
+    <button onclick="handleDiagnosisClick()">Try DiagnoseAi for Free</button>
+  </section>
+
+  <footer>
+    &copy; 2025 DiagnoseAi. Designed for a healthier future.
+  </footer>
+
+  <!-- Sign-up Modal -->
+  <div id="signupModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <h2>Please Sign Up</h2>
+      <p>You need to create an account before using DiagnoseAi.</p>
+      <button onclick="window.location.href='signup.html'">Sign Up</button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const isLoggedIn = false;
+
+    function handleDiagnosisClick() {
+      if (isLoggedIn) {
+        window.location.href = '/diagnose';
+      } else {
+        document.getElementById('signupModal').style.display = 'flex';
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('signupModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
