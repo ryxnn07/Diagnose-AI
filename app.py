@@ -180,7 +180,7 @@ def serve_static(filename):
 
 @app.route('/frontpage')
 def serve_frontpage():
-    return send_from_directory('frontend', 'front_page.html')
+    return send_from_directory('frontend', 'index.html')
 
 @app.route('/home')
 def serve_home():
