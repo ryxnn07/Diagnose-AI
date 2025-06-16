@@ -128,6 +128,7 @@
     }
   </style>
 </head>
+  
 <body>
   <div class="container">
     <div class="progress-indicator" id="progressIndicator">
@@ -296,7 +297,7 @@
         localStorage.setItem("predictions", JSON.stringify(data.predictions));
         localStorage.setItem("user_data", JSON.stringify(data.user_data));
         window.location.href = "/result.html";
-        }
+      
         } else if (data.error) {
           alert("Prediction failed: " + data.error);
         } else {
