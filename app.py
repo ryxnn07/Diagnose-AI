@@ -133,7 +133,7 @@ def predict_disease():
         session['user_data'] = symptoms_data
         session['predicted_diseases'] = predicted_diseases
 
-        return jsonify({"redirect": "/prediction_result"})
+        return jsonify({"redirect": "https://diagnose-ai.onrender.com/prediction_result"})
 
     except KeyError as ke:
         logging.error(f"KeyError during prediction: {str(ke)}")
