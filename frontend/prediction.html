@@ -289,6 +289,8 @@
         });
 
         const data = await response.json();
+        console.log("Response data from backend:", data);
+
 
         if (response.ok && data.redirect) {
           window.location.href = data.redirect;
