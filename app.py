@@ -130,10 +130,20 @@ def predict_disease():
             return jsonify({"error": "No predictions could be made based on the input data."}), 404
 
         # ✅ Store input and predictions in session
-        session['user_data'] = symptoms_data
-        session['predicted_diseases'] = predicted_diseases
+        return jsonify({
+    "predictions": predicted_diseases,
+    "user_data": {
+        "age": age,
+        "gender": gender,
+        "symptoms": {
+            "fever": symptoms_data.get("fever"),
+            "cough": symptoms_data.get("cough"),
+            "fatigue": symptoms_data.get("fatigue"),
+            "difficulty_breathing": symptoms_data.get("difficulty breathing")
+        }
+    }
+})
 
-        return jsonify({"redirect": "https://diagnose-ai.onrender.com/prediction_result"})
 
 
     except KeyError as ke:
