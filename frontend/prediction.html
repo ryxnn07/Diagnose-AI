@@ -292,8 +292,11 @@
         console.log("Response data from backend:", data);
 
 
-        if (response.ok && data.redirect) {
-          window.location.href = data.redirect;
+        if (response.ok && data.predictions) {
+        localStorage.setItem("predictions", JSON.stringify(data.predictions));
+        localStorage.setItem("user_data", JSON.stringify(data.user_data));
+        window.location.href = "/result.html";
+        }
         } else if (data.error) {
           alert("Prediction failed: " + data.error);
         } else {
