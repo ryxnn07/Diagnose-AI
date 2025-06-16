@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diagnosis Report | DiagnoseAi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f9fafe; /* Light background from Home.html */
+      color: #1a1a1a; /* Dark text from Home.html */
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #1e1e2f; /* Dark header from Home.html */
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    header img {
+      height: 3.2rem; /* Logo size from Home.html */
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00d4ff; /* Hover color from Home.html */
+    }
+
+    .container {
+      flex-grow: 1;
+      padding: 140px 10% 60px; /* Adjust padding to clear fixed header */
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-top: 120px; /* Space from header */
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e1e2f; /* Dark blue from front_page.html header */
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: #0074f0; /* Blue from Home.html feature cards */
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #444; /* Slightly lighter text color */
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: none; /* Remove default bullet points */
+      padding-left: 0;
+      margin-bottom: 20px;
+    }
+
+    ul li {
+      background-color: #f3f7fb; /* Light background for list items */
+      padding: 10px 15px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    ul li strong {
+        color: #1e1e2f; /* Make symptom names stand out */
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #0074f0; /* Blue button from Home.html */
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+      display: block; /* Make button a block element */
+      margin: 30px auto 0 auto; /* Center the button */
+    }
+
+    button:hover {
+      background-color: #005ed1; /* Darker blue on hover from Home.html */
+    }
+
+    em {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1rem;
+      color: #777;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      background-color: #ffffff;
+      border-top: 1px solid #ddd;
+      margin-top: auto; /* Push footer to the bottom */
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        padding: 15px 20px;
+      }
+      nav {
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .container {
+        padding: 120px 5% 40px;
+        margin-top: 100px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      p, ul li {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="assets/diagnoai.png" alt="DiagnoseAi Logo">
+    <nav>
+      <a href="/home">Home</a>
+      <a href="/contactus">Contact</a>
+      <a href="/aboutus">About Us</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Your Diagnosis Report</h1>
+    <div id="report">
+      </div>
+
+    <button onclick="downloadPDF()">Download Report</button>
+  </div>
+
+  <footer>
+    &copy; 2025 DiagnoseAi. Designed for a healthier future.
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const predictions = JSON.parse(localStorage.getItem("predictions"));
+    const userData = JSON.parse(localStorage.getItem("user_data"));
+    const reportDiv = document.getElementById("report");
+
+    if (!userData || !predictions) {
+      reportDiv.innerHTML = "<p>No prediction data found.</p>";
+    } else {
+      reportDiv.innerHTML = `
+        <h2>Patient Information</h2>
+        <p><strong>Age:</strong> ${userData.age}</p>
+        <p><strong>Gender:</strong> ${userData.gender}</p>
+
+        <h2>Symptoms Reported</h2>
+        <ul>
+          <li><strong>Fever:</strong> ${userData.symptoms.fever}</li>
+          <li><strong>Cough:</strong> ${userData.symptoms.cough}</li>
+          <li><strong>Fatigue:</strong> ${userData.symptoms.fatigue}</li>
+          <li><strong>Difficulty Breathing:</strong> ${userData.symptoms["difficulty breathing"]}</li>
+        </ul>
+
+        <h2>Predicted Diseases</h2>
+        <ul>
+          ${predictions.map(p => `<li><strong>${p.disease}:</strong> ${p.probability}</li>`).join('')}
+        </ul>
+        <em>“Stay positive, stay strong. This is just a step to understanding your health better.”</em>
+        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #777;">Please consult a certified medical professional for confirmation and treatment.</p>
+      `;
+    }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 20;
+
+      doc.setFontSize(22);
+      doc.setTextColor(30, 30, 47); /* #1e1e2f */
+      doc.text("Diagnosis Report", 20, y);
+      y += 15;
+
+      doc.setFontSize(14);
+      doc.setTextColor(68, 68, 68); /* #444 */
+      doc.text(`Age: ${userData.age}`, 20, y); y += 8;
+      doc.text(`Gender: ${userData.gender}`, 20, y); y += 12;
+
+      doc.setFontSize(16);
+      doc.setTextColor(0, 116, 240); /* #0074f0 */
+      doc.text("Symptoms Reported:", 20, y); y += 8;
+      doc.setFontSize(12);
+      doc.setTextColor(51, 51, 51); /* #333 */
+      doc.text(`- Fever: ${userData.symptoms.fever}`, 25, y); y += 7;
+      doc.text(`- Cough: ${userData.symptoms.cough}`, 25, y); y += 7;
+      doc.text(`- Fatigue: ${userData.symptoms.fatigue}`, 25, y); y += 7;
+      doc.text(`- Difficulty Breathing: ${userData.symptoms["difficulty breathing"]}`, 25, y); y += 12;
+
+      doc.setFontSize(16);
+      doc.setTextColor(0, 116, 240); /* #0074f0 */
+      doc.text("Predicted Diseases:", 20, y); y += 8;
+      doc.setFontSize(12);
+      doc.setTextColor(51, 51, 51); /* #333 */
+      predictions.forEach(p => {
+        doc.text(`- ${p.disease}: ${p.probability}`, 25, y);
+        y += 7;
+      });
+
+      y += 15;
+      doc.setFontSize(10);
+      doc.setTextColor(119, 119, 119); /* #777 */
+      doc.text("“Stay positive, stay strong. This is just a step to understanding your health better.”", 20, y); y += 8;
+      doc.text("Please consult a certified medical professional for confirmation and treatment.", 20, y);
+
+      doc.save("Diagnosis_Report.pdf");
+    }
+  </script>
+</body>
+</html>
