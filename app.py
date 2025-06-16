@@ -8,7 +8,7 @@ import os
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app, supports_credentials=True)  # Allow cookies to be sent
+CORS(app, origins=["https://diagnoseai-phi.vercel.app"], supports_credentials=True) # Allow cookies to be sent
 app.secret_key = os.urandom(24)       # For session management
 
 # In-memory user store for demo (can be replaced with a database)
